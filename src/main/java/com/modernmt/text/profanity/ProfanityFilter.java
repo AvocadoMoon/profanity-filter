@@ -17,6 +17,9 @@ public class ProfanityFilter {
             "hu", "hy", "id", "is", "it", "ja", "ka", "ko", "lt", "lv", "mk", "ms", "mt", "no", "nl", "pl", "pt", "ro",
             "ru", "sk", "sl", "sq", "sr", "sv", "sw", "th", "tl", "tr", "uk", "vi", "xh", "zh", "zu");
 
+
+    private static final String DEFAULT_LANGUAGE = "en";
+
     private static Dictionary loadDictionary(String language) {
         String resource = "dictionary." + language;
 
@@ -39,7 +42,7 @@ public class ProfanityFilter {
     private final Map<String, Dictionary.Matcher> matchers;
 
     public ProfanityFilter() {
-        this(.3f);
+        this(0.0f);
     }
 
     public ProfanityFilter(float threshold) {
@@ -48,6 +51,10 @@ public class ProfanityFilter {
             Dictionary dictionary = loadDictionary(language);
             matchers.put(language, dictionary.matcher(threshold));
         }
+    }
+
+    public boolean test(String text){
+        return test(DEFAULT_LANGUAGE, text);
     }
 
     public boolean test(String language, String text) {
